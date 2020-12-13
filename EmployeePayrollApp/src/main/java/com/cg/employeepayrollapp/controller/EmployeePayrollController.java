@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.employeepayrollapp.dto.EmployeePayrollDTO;
+import com.cg.employeepayrollapp.dto.ResponseDTO;
 import com.cg.employeepayrollapp.model.EmployeePayrollData;
-import com.cg.employeepayrollapp.model.ResponseDTO;
 import com.cg.employeepayrollapp.service.IEmployeePayrollService;
 
 @RestController
@@ -47,6 +47,8 @@ public class EmployeePayrollController {
 		EmployeePayrollData empData = null;
 		empData = employeePayrollService.createEmployeePayrollData(empPayrollDTO);
 		ResponseDTO respDTO = new ResponseDTO("Created Employee Payroll Data Successfully", empData);
+//		 respDTO.getData();
+//		 respDTO.getMessage();
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
