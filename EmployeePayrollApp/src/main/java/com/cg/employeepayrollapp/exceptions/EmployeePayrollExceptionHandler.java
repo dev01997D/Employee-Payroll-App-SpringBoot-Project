@@ -3,6 +3,7 @@ package com.cg.employeepayrollapp.exceptions;
 import java.util.List;
 import java.util.stream.Collectors;
 import  lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +16,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.cg.employeepayrollapp.dto.ResponseDTO;
 
 @ControllerAdvice
+@Slf4j
 public class EmployeePayrollExceptionHandler {
 	
 	private static final String message="Exception while processing REST Request";
 	
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	public ResponseEntity<ResponseDTO> handleHttpMessageNotReadablException(HttpMessageNotReadableException exception) {
-//		log.error("Invalid Date Format", exception);
+		log.error("Invalid Date Format", exception);
 		ResponseDTO responseDTO=new ResponseDTO(message,"Should have date in the Format dd MMM yyyy");
 		return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.BAD_REQUEST);
 	}
