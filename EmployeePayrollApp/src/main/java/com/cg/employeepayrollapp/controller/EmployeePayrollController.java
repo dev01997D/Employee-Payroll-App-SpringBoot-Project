@@ -22,9 +22,12 @@ import com.cg.employeepayrollapp.dto.ResponseDTO;
 import com.cg.employeepayrollapp.model.EmployeePayrollData;
 import com.cg.employeepayrollapp.service.IEmployeePayrollService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
-@CrossOrigin(origins = "http://127.0.0.1:5500", maxAge = 3600)
+//@CrossOrigin(origins = "http://127.0.0.1:5500", maxAge = 3600)
 @RequestMapping("/employeepayrollservice")
+@Slf4j
 public class EmployeePayrollController {
 
 	@Autowired
@@ -46,13 +49,21 @@ public class EmployeePayrollController {
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
+	@GetMapping("/department/{department}")
+	public ResponseEntity<ResponseDTO> getemployeesByDepartment(@PathVariable("department") String department) {
+		List<EmployeePayrollData> empDataList = null;
+		empDataList = employeePayrollService.getEmployeesByDepartment(department);
+		ResponseDTO responseDTO = new ResponseDTO("Get Call for Department Successful", empDataList);
+		return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
+	}
+
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDTO> addEmployeePayrollData(@Valid @RequestBody EmployeePayrollDTO empPayrollDTO) {
+//		log.debug("Employee DTO: "+empPayrollDTO.toString());
 		EmployeePayrollData empData = null;
 		empData = employeePayrollService.createEmployeePayrollData(empPayrollDTO);
 		ResponseDTO respDTO = new ResponseDTO("Created Employee Payroll Data Successfully", empData);
-//		 respDTO.getData();
-//		 respDTO.getMessage();
+		log.debug("Emp Data: " + empData.toString());
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
