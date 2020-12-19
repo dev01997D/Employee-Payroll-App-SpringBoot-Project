@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import  lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -34,13 +35,19 @@ public class EmployeePayrollExceptionHandler {
 		List<String> errMesg=errorList.stream()
 				                       .map(objErr -> objErr.getDefaultMessage())
 				                       .collect(Collectors.toList());
-		ResponseDTO responseDTO=new ResponseDTO("Exception while processing REST Request", errMesg);
+		ResponseDTO responseDTO=new ResponseDTO(message, errMesg);
 		return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.BAD_REQUEST);
 	}
 	
 	@ExceptionHandler(EmployeePayrollException.class)
 	public ResponseEntity<ResponseDTO> handleEmployeePayrollIdException(EmployeePayrollException exception){
-		ResponseDTO responseDTO=new ResponseDTO("Exception while processing REST request", exception.getMessage());
+		ResponseDTO responseDTO=new ResponseDTO(message, exception.getMessage());
+		return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(EmptyResultDataAccessException.class)
+	public ResponseEntity<ResponseDTO> handleInvalidIdException(EmptyResultDataAccessException exception){
+		ResponseDTO responseDTO=new ResponseDTO(message, "Employee with given ID does not exists");
 		return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.BAD_REQUEST);
 	}
 }

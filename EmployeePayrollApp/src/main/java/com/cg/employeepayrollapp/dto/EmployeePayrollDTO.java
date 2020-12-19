@@ -38,10 +38,4 @@ public @ToString class EmployeePayrollDTO {
 	@NotNull(message = "department should Not be Empty")
 	public List<String> department;
 	
-//	public EmployeePayrollDTO(String name, long salary) {
-//		this.name=name;
-//		this.salary=salary;
-//	}
-//	
-	
 }
